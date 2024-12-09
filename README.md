@@ -34,8 +34,13 @@ On OS X you _must_ install the Homebrew versions of `flex` and `bison` because t
 versions provided with XCode are extremely old.
 
 ```bash
-git clone https://github.com/SaladDais/tailslide.git
+git clone https://github.com/vince-br-549/tailslide.git
 cd tailslide
+There appears to be a bug where the libtailslide/builtins_txt.cc does not get re-build
+if you change the source file builtins.txt.  I discovered after changing builtins.txt
+then run "python generate_builtins_c.py"
+If you make changes to the builtins.txt file you don't have to delete the build directory, just
+cd build and re issue the make.
 mkdir build
 cd build
 cmake ..
