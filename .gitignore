@@ -13,3 +13,7 @@ callgrind.out.*
 *.profdata
 coverage/
 stage
+*.swp   # vim swap file.
+*.orig  # kdiff3 files
+*.-swp  # kwrite work file.
+
