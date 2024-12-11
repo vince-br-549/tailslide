@@ -298,9 +298,11 @@ template<class T>
 class LSLASTNodeList : public LSLASTNode {
   static_assert(std::is_base_of<LSLASTNode, T>::value, "T Must derive from LSLASTNode!");
   public:
-    explicit LSLASTNodeList<T>(ScriptContext *ctx) : LSLASTNode(ctx, 0) {};
-    LSLASTNodeList<T>(ScriptContext *ctx, class LSLASTNode *nodes ) : LSLASTNodeList(ctx) {
-      if (nodes)
+// explicit LSLASTNodeList<T>(ScriptContext *ctx) : LSLASTNode(ctx, 0) {};
+  explicit LSLASTNodeList(ScriptContext *ctx)  : LSLASTNode(ctx, 0) {};
+// LSLASTNodeList<T>(ScriptContext *ctx, class LSLASTNode *nodes ) : LSLASTNodeList(ctx) {
+    LSLASTNodeList(ScriptContext *ctx, class LSLASTNode *nodes ) : LSLASTNodeList(ctx) {
+      	    if (nodes)
         pushChild(nodes);
     };
     virtual std::string getNodeName() { return "ast node list"; }
