@@ -1192,6 +1192,7 @@ const char *BUILTINS_TXT[] = {
 "list llListRandomize( list src, integer stride )",
 "list llListReplaceList( list dest, list src, integer start, integer end )",
 "list llListSort( list src, integer stride, integer ascending )",
+"list llListSortStrided( list src, integer stride, integer stride_index, integer ascending )",
 "float llListStatistics( integer operation, list src )",
 "integer llListen( integer channel, string name, key id, string msg )",
 "void llListenControl( integer number, integer active )",
