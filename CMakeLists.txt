@@ -71,7 +71,10 @@ endif()
 
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
-
+# vince add
+# Find Python3
+find_package(Python3 REQUIRED)
+# end of vince 
 set(EXTRA_LIBS "")
 if(UNIX AND NOT APPLE)
   set(EXTRA_LIBS "stdc++" "rt" "m")
@@ -100,8 +103,7 @@ endif()
 add_library(libtailslide STATIC
         libtailslide/allocator.cc
         libtailslide/ast.cc
-        libtailslide/builtins.cc
-        libtailslide/builtins_txt.cc
+	libtailslide/builtins.cc
         libtailslide/logger.cc
         libtailslide/lslmini.cc
         libtailslide/operations.cc
@@ -128,6 +130,7 @@ add_library(libtailslide STATIC
         )
 target_sources(libtailslide PRIVATE
         libtailslide/allocator.hh
+	libtailslide/builtins_txt.cc ## vince move from static.
         libtailslide/ast.hh
         libtailslide/bitstream.hh
         libtailslide/loctype.hh
@@ -158,6 +161,53 @@ target_sources(libtailslide PRIVATE
         libtailslide/passes/mono/script_compiler.hh
         libtailslide/tailslide.hh
 )
+##  vince from chat gpt
+#
+#
+cmake_minimum_required(VERSION 3.12)
+project(Tailslide)
+
+# Find Python3 (ensure Python3 is installed)
+find_package(Python3 REQUIRED)
+
+# Path to builtins.txt and script
+set(BUILTINS_TXT "${CMAKE_SOURCE_DIR}/builtins.txt")
+set(BUILTINS_TXT_CC "${CMAKE_SOURCE_DIR}/libtailslide/builtins_txt.cc")
+set(GENERATE_BUILTINS_SCRIPT "${CMAKE_SOURCE_DIR}/generate_builtins_c.py")
+
+# Custom command to generate builtins_txt.cc
+add_custom_command(
+    OUTPUT ${BUILTINS_TXT_CC}
+    COMMAND ${Python3_EXECUTABLE} ${GENERATE_BUILTINS_SCRIPT}
+    DEPENDS ${BUILTINS_TXT} ${GENERATE_BUILTINS_SCRIPT}
+    COMMENT "Regenerating builtins_txt.cc from builtins.txt"
+)
+
+# Custom target for running the custom command
+add_custom_target(generate_builtins ALL DEPENDS ${BUILTINS_TXT_CC})
+
+# Define the library or executable target
+#add_library(libtailslide STATIC
+#
+#    # Add other source files here
+#)
+
+# Add dependencies to ensure builtins_txt.cc is up-to-date
+add_dependencies(libtailslide generate_builtins)
+
+# Define an executable (if applicable)
+#add_executable(tailslide_cli
+#    tailslide_cli.cpp # Replace with your actual source files
+#)
+
+# Ensure the executable depends on the library
+#target_link_libraries(tailslide_cli PRIVATE libtailslide)
+
+#
+#
+#
+#
+# end vince changes
 
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d")
 add_definitions(-DBUILD_DATE="${BUILD_DATE}")
@@ -210,8 +260,6 @@ if (TAILSLIDE_BUILD_TESTS)
   target_link_libraries(tailslide_test PUBLIC ${EXTRA_LIBS} libtailslide)
   set_target_properties(tailslide_test PROPERTIES OUTPUT_NAME tailslide-test)
 endif()
-
-
 if (TAILSLIDE_BUILD_FUZZER)
   if ( NOT (${CMAKE_SYSTEM_NAME} STREQUAL "Linux") )
     message(FATAL_ERROR "The libFuzzer harness is only supported under Linux!")
