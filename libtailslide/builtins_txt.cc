@@ -907,6 +907,7 @@ const char *BUILTINS_TXT[] = {
 "const vector ZERO_VECTOR = <0.0, 0.0, 0.0>",
 "//",
 "// new functions",
+"string llSignRSA( string private_key, string msg, string algorithm )",
 "void llAdjustDamage( integer number, float new_damage )",
 "string llComputeHash( string message, string algorithm )",
 "void llDamage( key target, float damage, integer damage_type )",
