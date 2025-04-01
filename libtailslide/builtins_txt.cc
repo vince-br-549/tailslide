@@ -2256,6 +2256,8 @@ const char *BUILTINS_TXT[] = {
 "event not_at_rot_target(  )",
 "event not_at_target(  )",
 "event object_rez( key id )",
+"event on_death( )",
+"event on_damage( )",
 "event on_rez( integer start_param )",
 "event path_update( integer type, list reserved )",
 "event remote_data( integer event_type, key channel, key message_id, string sender, integer idata, string sdata )",
