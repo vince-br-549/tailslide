@@ -314,6 +314,7 @@ const char *BUILTINS_TXT[] = {
 "const integer LINKSETDATA_ENOKEY = 2",
 "const integer LINKSETDATA_EPROTECTED = 3",
 "const integer LINKSETDATA_NOTFOUND = 4",
+"const integer LINKSETDATA_MULTIDELETE = 5",
 "const integer LINKSETDATA_NOUPDATE = 5",
 "const integer LINKSETDATA_OK = 0",
 "const integer LINKSETDATA_RESET = 0",
